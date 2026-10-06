@@ -31,6 +31,7 @@
             this.lblFiltro = new System.Windows.Forms.Label();
             this.cboEstado = new System.Windows.Forms.ComboBox();
             this.btnFiltrar = new System.Windows.Forms.Button();
+            this.btnNuevaTarea = new System.Windows.Forms.Button();
             this.dgvTareas = new System.Windows.Forms.DataGridView();
             this.lblTotal = new System.Windows.Forms.Label();
             this.btnCompletar = new System.Windows.Forms.Button();
@@ -68,6 +69,17 @@
             this.btnFiltrar.Text = "Filtrar";
             this.btnFiltrar.UseVisualStyleBackColor = true;
             this.btnFiltrar.Click += new System.EventHandler(this.btnFiltrar_Click);
+            //
+            // btnNuevaTarea
+            //
+            this.btnNuevaTarea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNuevaTarea.Location = new System.Drawing.Point(652, 12);
+            this.btnNuevaTarea.Name = "btnNuevaTarea";
+            this.btnNuevaTarea.Size = new System.Drawing.Size(120, 25);
+            this.btnNuevaTarea.TabIndex = 3;
+            this.btnNuevaTarea.Text = "+ Nueva Tarea";
+            this.btnNuevaTarea.UseVisualStyleBackColor = true;
+            this.btnNuevaTarea.Click += new System.EventHandler(this.btnNuevaTarea_Click);
             //
             // dgvTareas
             //
@@ -121,6 +133,7 @@
             this.Controls.Add(this.btnCompletar);
             this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.dgvTareas);
+            this.Controls.Add(this.btnNuevaTarea);
             this.Controls.Add(this.btnFiltrar);
             this.Controls.Add(this.cboEstado);
             this.Controls.Add(this.lblFiltro);
@@ -141,6 +154,7 @@
         private System.Windows.Forms.Label lblFiltro;
         private System.Windows.Forms.ComboBox cboEstado;
         private System.Windows.Forms.Button btnFiltrar;
+        private System.Windows.Forms.Button btnNuevaTarea;
         private System.Windows.Forms.DataGridView dgvTareas;
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Button btnCompletar;

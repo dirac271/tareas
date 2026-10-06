@@ -24,6 +24,18 @@ namespace TaskDB
             CargarTareas();
         }
 
+        // Abre el formulario de registro y, si se guardó una tarea, recarga la grilla.
+        private void btnNuevaTarea_Click(object sender, EventArgs e)
+        {
+            using (FrmAgregarTarea formulario = new FrmAgregarTarea())
+            {
+                if (formulario.ShowDialog(this) == DialogResult.OK)
+                {
+                    CargarTareas();
+                }
+            }
+        }
+
         /// <summary>
         /// Consulta la tabla Tareas y muestra el resultado en la grilla (RF3.2),
         /// aplicando el estado elegido en el ComboBox (RF4.1).
