@@ -480,3 +480,7 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# TaskDB: la base de datos del proyecto sí se versiona (excepción a la regla *.mdf de arriba).
+# El .ldf no se sube: LocalDB lo vuelve a crear junto al .mdf.
+!TaskDB/TaskDB.mdf
