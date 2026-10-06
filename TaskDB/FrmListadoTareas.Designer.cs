@@ -33,6 +33,7 @@
             this.btnFiltrar = new System.Windows.Forms.Button();
             this.dgvTareas = new System.Windows.Forms.DataGridView();
             this.lblTotal = new System.Windows.Forms.Label();
+            this.btnCompletar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTareas)).BeginInit();
             this.SuspendLayout();
             //
@@ -101,11 +102,23 @@
             this.lblTotal.TabIndex = 5;
             this.lblTotal.Text = "0 tareas";
             //
+            // btnCompletar
+            //
+            this.btnCompletar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCompletar.Location = new System.Drawing.Point(602, 423);
+            this.btnCompletar.Name = "btnCompletar";
+            this.btnCompletar.Size = new System.Drawing.Size(170, 28);
+            this.btnCompletar.TabIndex = 6;
+            this.btnCompletar.Text = "Marcar como Completada";
+            this.btnCompletar.UseVisualStyleBackColor = true;
+            this.btnCompletar.Click += new System.EventHandler(this.btnCompletar_Click);
+            //
             // FrmListadoTareas
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
+            this.Controls.Add(this.btnCompletar);
             this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.dgvTareas);
             this.Controls.Add(this.btnFiltrar);
@@ -130,5 +143,6 @@
         private System.Windows.Forms.Button btnFiltrar;
         private System.Windows.Forms.DataGridView dgvTareas;
         private System.Windows.Forms.Label lblTotal;
+        private System.Windows.Forms.Button btnCompletar;
     }
 }

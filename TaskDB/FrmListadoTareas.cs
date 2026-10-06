@@ -75,6 +75,51 @@ namespace TaskDB
         }
 
         /// <summary>
+        /// Cambia a "Completada" la tarea seleccionada en la grilla (RF4.2).
+        /// </summary>
+        private void btnCompletar_Click(object sender, EventArgs e)
+        {
+            if (dgvTareas.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una tarea de la lista.", "TaskDB",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DataRowView fila = (DataRowView)dgvTareas.CurrentRow.DataBoundItem;
+            int id = (int)fila["Id"];
+
+            if ((string)fila["Estado"] == "Completada")
+            {
+                MessageBox.Show("La tarea seleccionada ya está completada.", "TaskDB",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            const string sql = "UPDATE Tareas SET Estado = @Estado WHERE Id = @Id";
+
+            try
+            {
+                using (SqlConnection conexion = DatabaseConnection.GetConnection())
+                using (SqlCommand comando = new SqlCommand(sql, conexion))
+                {
+                    comando.Parameters.Add("@Estado", SqlDbType.NVarChar, 20).Value = "Completada";
+                    comando.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+
+                    conexion.Open();
+                    comando.ExecuteNonQuery();
+                }
+
+                CargarTareas();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("No se pudo actualizar la tarea.\n\n" + ex.Message, "Error de base de datos",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
         /// Encabezados legibles y proporción de cada columna (RNF3.1).
         /// </summary>
         private void ConfigurarColumnas()
