@@ -15,16 +15,43 @@ namespace TaskDB
 
         private void FrmListadoTareas_Load(object sender, EventArgs e)
         {
+            cboEstado.SelectedIndex = 0; // "Todas"
             CargarTareas();
         }
 
+        private void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            CargarTareas();
+        }
+
+        // Abre el formulario de registro y, si se guardó una tarea, recarga la grilla.
+        private void btnNuevaTarea_Click(object sender, EventArgs e)
+        {
+            using (FrmAgregarTarea formulario = new FrmAgregarTarea())
+            {
+                if (formulario.ShowDialog(this) == DialogResult.OK)
+                {
+                    CargarTareas();
+                }
+            }
+        }
+
         /// <summary>
-        /// Consulta la tabla Tareas y muestra el resultado en la grilla (RF3.2).
+        /// Consulta la tabla Tareas y muestra el resultado en la grilla (RF3.2),
+        /// aplicando el estado elegido en el ComboBox (RF4.1).
         /// </summary>
         private void CargarTareas()
         {
-            const string sql =
-                "SELECT Id, Titulo, Descripcion, Estado, FechaCreacion FROM Tareas ORDER BY Id";
+            // "Todas" no filtra; "Pendiente" y "Completada" se comparan contra la columna Estado.
+            string estado = Convert.ToString(cboEstado.SelectedItem);
+            bool filtrar = estado == "Pendiente" || estado == "Completada";
+
+            string sql = "SELECT Id, Titulo, Descripcion, Estado, FechaCreacion FROM Tareas";
+            if (filtrar)
+            {
+                sql += " WHERE Estado = @Estado";
+            }
+            sql += " ORDER BY Id";
 
             try
             {
@@ -33,6 +60,11 @@ namespace TaskDB
                 using (SqlConnection conexion = DatabaseConnection.GetConnection())
                 using (SqlDataAdapter adaptador = new SqlDataAdapter(sql, conexion))
                 {
+                    if (filtrar)
+                    {
+                        adaptador.SelectCommand.Parameters.Add("@Estado", SqlDbType.NVarChar, 20).Value = estado;
+                    }
+
                     // Fill abre y cierra la conexión por su cuenta.
                     adaptador.Fill(tabla);
                 }
@@ -51,6 +83,51 @@ namespace TaskDB
             {
                 MessageBox.Show("Ocurrió un error inesperado al cargar las tareas.\n\n" + ex.Message,
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Cambia a "Completada" la tarea seleccionada en la grilla (RF4.2).
+        /// </summary>
+        private void btnCompletar_Click(object sender, EventArgs e)
+        {
+            if (dgvTareas.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una tarea de la lista.", "TaskDB",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DataRowView fila = (DataRowView)dgvTareas.CurrentRow.DataBoundItem;
+            int id = (int)fila["Id"];
+
+            if ((string)fila["Estado"] == "Completada")
+            {
+                MessageBox.Show("La tarea seleccionada ya está completada.", "TaskDB",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            const string sql = "UPDATE Tareas SET Estado = @Estado WHERE Id = @Id";
+
+            try
+            {
+                using (SqlConnection conexion = DatabaseConnection.GetConnection())
+                using (SqlCommand comando = new SqlCommand(sql, conexion))
+                {
+                    comando.Parameters.Add("@Estado", SqlDbType.NVarChar, 20).Value = "Completada";
+                    comando.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+
+                    conexion.Open();
+                    comando.ExecuteNonQuery();
+                }
+
+                CargarTareas();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("No se pudo actualizar la tarea.\n\n" + ex.Message, "Error de base de datos",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
