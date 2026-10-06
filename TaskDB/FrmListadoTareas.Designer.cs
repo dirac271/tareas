@@ -28,10 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.lblFiltro = new System.Windows.Forms.Label();
+            this.cboEstado = new System.Windows.Forms.ComboBox();
+            this.btnFiltrar = new System.Windows.Forms.Button();
             this.dgvTareas = new System.Windows.Forms.DataGridView();
             this.lblTotal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTareas)).BeginInit();
             this.SuspendLayout();
+            //
+            // lblFiltro
+            //
+            this.lblFiltro.AutoSize = true;
+            this.lblFiltro.Location = new System.Drawing.Point(12, 17);
+            this.lblFiltro.Name = "lblFiltro";
+            this.lblFiltro.Size = new System.Drawing.Size(81, 15);
+            this.lblFiltro.TabIndex = 0;
+            this.lblFiltro.Text = "Filtrar Estado:";
+            //
+            // cboEstado
+            //
+            this.cboEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboEstado.FormattingEnabled = true;
+            this.cboEstado.Items.AddRange(new object[] {
+            "Todas",
+            "Pendiente",
+            "Completada"});
+            this.cboEstado.Location = new System.Drawing.Point(100, 13);
+            this.cboEstado.Name = "cboEstado";
+            this.cboEstado.Size = new System.Drawing.Size(140, 23);
+            this.cboEstado.TabIndex = 1;
+            //
+            // btnFiltrar
+            //
+            this.btnFiltrar.Location = new System.Drawing.Point(248, 12);
+            this.btnFiltrar.Name = "btnFiltrar";
+            this.btnFiltrar.Size = new System.Drawing.Size(80, 25);
+            this.btnFiltrar.TabIndex = 2;
+            this.btnFiltrar.Text = "Filtrar";
+            this.btnFiltrar.UseVisualStyleBackColor = true;
+            this.btnFiltrar.Click += new System.EventHandler(this.btnFiltrar_Click);
             //
             // dgvTareas
             //
@@ -45,25 +80,25 @@
             this.dgvTareas.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgvTareas.ColumnHeadersHeight = 28;
             this.dgvTareas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvTareas.Location = new System.Drawing.Point(12, 12);
+            this.dgvTareas.Location = new System.Drawing.Point(12, 47);
             this.dgvTareas.MultiSelect = false;
             this.dgvTareas.Name = "dgvTareas";
             this.dgvTareas.ReadOnly = true;
             this.dgvTareas.RowHeadersVisible = false;
             this.dgvTareas.RowTemplate.Height = 24;
             this.dgvTareas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTareas.Size = new System.Drawing.Size(760, 408);
-            this.dgvTareas.TabIndex = 0;
+            this.dgvTareas.Size = new System.Drawing.Size(760, 366);
+            this.dgvTareas.TabIndex = 4;
             this.dgvTareas.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvTareas_CellFormatting);
             //
             // lblTotal
             //
             this.lblTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Location = new System.Drawing.Point(12, 432);
+            this.lblTotal.Location = new System.Drawing.Point(12, 430);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(48, 15);
-            this.lblTotal.TabIndex = 1;
+            this.lblTotal.TabIndex = 5;
             this.lblTotal.Text = "0 tareas";
             //
             // FrmListadoTareas
@@ -73,6 +108,9 @@
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.dgvTareas);
+            this.Controls.Add(this.btnFiltrar);
+            this.Controls.Add(this.cboEstado);
+            this.Controls.Add(this.lblFiltro);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.MinimumSize = new System.Drawing.Size(640, 360);
             this.Name = "FrmListadoTareas";
@@ -87,6 +125,9 @@
 
         #endregion
 
+        private System.Windows.Forms.Label lblFiltro;
+        private System.Windows.Forms.ComboBox cboEstado;
+        private System.Windows.Forms.Button btnFiltrar;
         private System.Windows.Forms.DataGridView dgvTareas;
         private System.Windows.Forms.Label lblTotal;
     }

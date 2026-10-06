@@ -15,16 +15,31 @@ namespace TaskDB
 
         private void FrmListadoTareas_Load(object sender, EventArgs e)
         {
+            cboEstado.SelectedIndex = 0; // "Todas"
+            CargarTareas();
+        }
+
+        private void btnFiltrar_Click(object sender, EventArgs e)
+        {
             CargarTareas();
         }
 
         /// <summary>
-        /// Consulta la tabla Tareas y muestra el resultado en la grilla (RF3.2).
+        /// Consulta la tabla Tareas y muestra el resultado en la grilla (RF3.2),
+        /// aplicando el estado elegido en el ComboBox (RF4.1).
         /// </summary>
         private void CargarTareas()
         {
-            const string sql =
-                "SELECT Id, Titulo, Descripcion, Estado, FechaCreacion FROM Tareas ORDER BY Id";
+            // "Todas" no filtra; "Pendiente" y "Completada" se comparan contra la columna Estado.
+            string estado = Convert.ToString(cboEstado.SelectedItem);
+            bool filtrar = estado == "Pendiente" || estado == "Completada";
+
+            string sql = "SELECT Id, Titulo, Descripcion, Estado, FechaCreacion FROM Tareas";
+            if (filtrar)
+            {
+                sql += " WHERE Estado = @Estado";
+            }
+            sql += " ORDER BY Id";
 
             try
             {
@@ -33,6 +48,11 @@ namespace TaskDB
                 using (SqlConnection conexion = DatabaseConnection.GetConnection())
                 using (SqlDataAdapter adaptador = new SqlDataAdapter(sql, conexion))
                 {
+                    if (filtrar)
+                    {
+                        adaptador.SelectCommand.Parameters.Add("@Estado", SqlDbType.NVarChar, 20).Value = estado;
+                    }
+
                     // Fill abre y cierra la conexión por su cuenta.
                     adaptador.Fill(tabla);
                 }
