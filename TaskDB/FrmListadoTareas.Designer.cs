@@ -54,6 +54,7 @@
             this.dgvTareas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTareas.Size = new System.Drawing.Size(760, 408);
             this.dgvTareas.TabIndex = 0;
+            this.dgvTareas.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvTareas_CellFormatting);
             //
             // lblTotal
             //
@@ -77,6 +78,7 @@
             this.Name = "FrmListadoTareas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Listado de Tareas";
+            this.Load += new System.EventHandler(this.FrmListadoTareas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTareas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
